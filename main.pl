@@ -1,3 +1,7 @@
+% Andrew Hoskins
+% CMPUT 325 Assignment 3 - Prolog
+% arhoskin - 1358383
+
 %%%%%%%%%%%%%%%%%% Helpers %%%%%%%%%%%%%%%%%%%%%%
 
 append([],L,L). % empty list and L is just L
