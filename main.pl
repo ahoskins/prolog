@@ -28,21 +28,6 @@ notMember(_, []). % last element not the same
 notMember(X, [Y|Rest]) :-
   X \== Y,
   notMember(X, Rest).
-%
-% xunique([], Result, Result). % base case
-% xunique(List, Result) :- % public api
-%   xunique(List, [], Result).
-%
-% xunique([Head|Tail], Partial, Unique) :-
-%   notMember(Head, Partial),
-%   xunique(Tail, [Partial|Head], Unique). % add to partial if notmember
-%
-% xunique([Head|Tail], Partial, Unique) :-
-%   setMember(Head, Partial),
-%   xunique(Tail, Partial, Unique). % don't add to partial if member
-
-% delete(L,E,LN) is true if a list LN is identical to a list L
-% after removing all occurences of an element E.
 
 delete([Head|Tail],Head,TailNew) :-
   delete(Tail,Head,TailNew). % delete all Head from Tail
@@ -115,10 +100,6 @@ allCliques([First|Rest], [First|Result]) :- % is a clique
 allCliques([_|Rest], Result) :- % is not a clique
   allCliques(Rest, Result).
 
-%% Start stuck part %%
-% I want to find the list elements without supersets
-% only add to result if it's number of subsets is zero
-
 allMaximalCliques([], _, []).
 allMaximalCliques([First|Rest], All, [First|Result]) :- % add, it's a maximal clique
   noSuperSets(First, All),
@@ -128,11 +109,14 @@ allMaximalCliques([_|Rest], All, Result) :- % don't add, not a maximal clique
 
 noSuperSets(E, []).
 noSuperSets(E, [First|Rest]) :-
-  (E == First ; not(subset(E, First))),
+  (E == First ; notSubset(E, First)),
   noSuperSets(E, Rest).
 
-
-%%% end stuck part %%%%
+notSubset([], S) :- false. % empty is a subset of anything
+notSubset([First|Rest], S) :-
+  notMember(First, S).
+notSubset([First|Rest], S) :-
+  notSubset(Rest, S).
 
 ofLengthN([], _, []).
 ofLengthN([First|Rest], N, [First|Result]) :- % add to list
