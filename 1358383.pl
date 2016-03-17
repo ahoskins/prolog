@@ -60,19 +60,6 @@ removeLast([H|T], [H|WithoutLast], L) :-
 
 %%%%%%%%%%%%%%%%%% 5.1 %%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: remove these
-node(a).
-node(b).
-node(c).
-node(d).
-node(e).
-
-edge(a,b).
-edge(b,c).
-edge(c,a).
-edge(d,a).
-edge(a,e).
-
 % checks if param one is a subset of param two
 subset([], _).
 subset([X|Xs], Set) :-
