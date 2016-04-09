@@ -1,7 +1,3 @@
-% Andrew Hoskins
-% CMPUT 325 Assignment 3 - Prolog
-% arhoskin - 1358383
-
 %%%%%%%%%%%%%%%%%% Helpers %%%%%%%%%%%%%%%%%%%%%%
 
 append([],L,L). % empty list and L is just L
@@ -12,7 +8,20 @@ setMember(X,[X|_]).
 setMember(X,[_|Y]) :-
     setMember(X,Y).
 
-%%%%%%%%%%%%%%%%%% Question 1 %%%%%%%%%%%%%%%%%%%%%%
+
+
+
+/*
+xreverse/2
+
+xreverse(L, R) will reverse a list, where L is a given list
+and R is either a variable or another given list.
+
+Examples:
+xreverse([7,3,4],[4,3,7]) should return yes,
+xreverse([7,3,4],[4,3,5]) should return no,
+xreverse([7,3,4], R) should return R = [4,3,7].
+*/
 
 % public api
 xreverse(List, Reverse) :-
@@ -22,7 +31,24 @@ xreverse([], Result, Result). % base case
 xreverse([Head|Tail], Partial, Reverse) :- % worker
   xreverse(Tail, [Head|Partial], Reverse).
 
-%%%%%%%%%%%%%%%%%% Question 2 %%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+/*
+xunique/2
+
+xunique(L, Lu) where L is a given list of atoms and Lu is a copy of L where
+all the duplicates have been removed. Lu can be either a variable, or a given list.
+The elements of Lu should be in the order in which they first appear in L.
+
+Examples:
+xunique([a,c,a,d], L) should return L = [a,c,d],
+xunique([a,c,a,d], [a,c,d]) should return yes,
+xunique([a,c,a,d], [c,a,d]) should return no (because of wrong order),
+xunique([a,a,a,a,a,b,b,b,b,b,c,c,c,c,b,a], L) should return L = [a,b,c],
+xunique([], L) should return L = [].
+*/
 
 xunique([],[]). % base case
 xunique([Head|Tail], [Head|TailUnique]) :-
@@ -41,13 +67,45 @@ delete([Head|Tail],E,[Head|TailNew]) :-
   Head \== E,
   delete(Tail,E,TailNew).
 
-%%%%%%%%%%%%%%%%%% Question 3 %%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+/*
+xunion/3
+
+xunion(L1, L2, L) where L1 and L2 are given lists of atoms, and L contains the
+unique elements that are contained in both L1 and L2. L should contain the unique
+elements of L1 (in the same order as in L1) followed by the unique elements of L2
+that are not contained in L1 (in the same order as in L2). There should be no
+redundancy in L. The predicate should work both if L is a variable and if L is a given list.
+
+Examples:
+xunion([a,c,a,d], [b,a,c], L) should return L = [a,c,d,b],
+xunion([a,c,d], [b,a,c], [a,c,d,b]) should return yes,
+xunion([a,c,d], [b,a,c], [a,c,d,b,a]) should return no.
+*/
 
 xunion(One, Two, Result) :-
   append(One, Two, AppendResult),
   xunique(AppendResult, Result).
 
-%%%%%%%%%%%%%%%%%% Question 4 %%%%%%%%%%%%%%%%%%%%%%
+
+
+
+/*
+removeLast/3
+
+removeLast(L, L1, Last) where L is a given nonempty list, L1 is the result of removing
+the last element from L, and Last is that last element. L1 and Last can be either variables, or given values.
+
+Examples:
+removeLast([a,c,a,d], L1, Last) should return L1 = [a,c,a], Last = d,
+removeLast([a,c,a,d], L1, d) should return L1 = [a,c,a],
+removeLast([a,c,a,d], L1, [d]) should return no (why?),
+removeLast([a], L1, Last) should return L1 = [], Last = a,
+removeLast([[a,b,c]], L1, Last) should return L1 = [], Last = [a,b,c].
+*/
 
 % list has one element, result is empty
 removeLast([Last], [], Last).
@@ -56,9 +114,14 @@ removeLast([Last], [], Last).
 removeLast([H|T], [H|WithoutLast], L) :-
   removeLast(T, WithoutLast, L).
 
-%%%%%%%%%%%%%%%%%% Question 5 %%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%% 5.1 %%%%%%%%%%%%%%%%%%%%%%
+
+
+/*
+allConnected/L
+
+determines if each node in L is connected to each other node in L.
+*/
 
 % checks if param one is a subset of param two
 subset([], _).
@@ -82,7 +145,14 @@ connect(A, [H|L]) :-
   (edge(A, H); edge(H, A)), % edge from either side
   connect(A, L). % and recure
 
-%%%%%%%%%%%%%%%%%% 5.2 %%%%%%%%%%%%%%%%%%%%%%
+
+
+
+/*
+maxclique/2
+
+compute all the maximal cliques of size N
+*/
 
 % add to result if is a clique
 allCliques([], _).
